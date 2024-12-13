@@ -7,8 +7,10 @@ import { Link } from 'react-router-dom';
 
 const Shop = () => {
     const [products, setProducts] = useState([]);
-    const [cart, setCart] = useState([])
+    const [cart, setCart] = useState([]);
+    const [counts, setCounts] = useState({});
 
+    
     useEffect(() => {
         fetch('http://localhost:5000/products')
             .then(res => res.json())
@@ -34,6 +36,24 @@ const Shop = () => {
         // step 5: set the cart
         setCart(savedCart);
     }, [products])
+
+
+    useEffect(() => {
+        const totalCounts = async () => {
+            try {
+                fetch('http://localhost:5000/products-counts')
+                    .then(res => res.json())
+                    .then(data => setCounts(data))
+            }
+            catch (error) {
+                console.log(error)
+            }
+        }
+
+        totalCounts()
+    }, [])
+
+    console.log(counts)
 
     const handleAddToCart = (product) => {
         // cart.push(product); '
