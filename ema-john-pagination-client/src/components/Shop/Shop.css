@@ -25,3 +25,11 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.pagination{
+    margin: 50px;
+}
+
+.page{
+    margin-right: 10px;
+}
