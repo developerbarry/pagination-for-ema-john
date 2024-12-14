@@ -30,15 +30,21 @@ async function run() {
 
     const productCollection = client.db('emaJohnDB').collection('products');
 
-    app.get('/products', async(req, res) => {
-      console.log(req.query)
-        const result = await productCollection.find().toArray();
-        res.send(result);
+    app.get('/products', async (req, res) => {
+
+      const page = parseInt(req.query?.page);
+      const size = parseInt(req.query?.size);
+      
+      const result = await productCollection.find()
+        .skip(page * size)
+        .limit(size)
+        .toArray();
+      res.send(result);
     })
 
-    app.get('/products-counts', async(req, res) => {
+    app.get('/products-counts', async (req, res) => {
       const result = await productCollection.estimatedDocumentCount();
-      res.send({result})
+      res.send({ result })
     })
 
     // Send a ping to confirm a successful connection
@@ -52,10 +58,10 @@ async function run() {
 run().catch(console.dir);
 
 
-app.get('/', (req, res) =>{
-    res.send('john is busy shopping')
+app.get('/', (req, res) => {
+  res.send('john is busy shopping')
 })
 
-app.listen(port, () =>{
-    console.log(`ema john server is running on port: ${port}`);
+app.listen(port, () => {
+  console.log(`ema john server is running on port: ${port}`);
 })
