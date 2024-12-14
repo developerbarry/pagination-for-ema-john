@@ -9,9 +9,13 @@ const Shop = () => {
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
     const [counts, setCounts] = useState({});
-    const perPageProducts = 10;
+    const [perPageProducts, setPerPageProducts] = useState(10)
 
-    console.log(counts)
+
+    const numberOfPages = counts.result ? Math.ceil(counts.result / perPageProducts) : 0;
+    const pages = numberOfPages > 0 ? [...Array(numberOfPages).keys()] : [];
+    console.log(numberOfPages, pages);
+
     useEffect(() => {
         fetch('http://localhost:5000/products')
             .then(res => res.json())
@@ -56,12 +60,6 @@ const Shop = () => {
 
 
 
-    const numberOfPages = counts.result ? Math.ceil(counts.result / perPageProducts) : 0;
-    const pages = numberOfPages > 0 ? [...Array(numberOfPages).keys()] : [];
-    console.log(numberOfPages, pages);
-
-
-
     const handleAddToCart = (product) => {
         // cart.push(product); '
         let newCart = [];
@@ -88,6 +86,13 @@ const Shop = () => {
         deleteShoppingCart();
     }
 
+    const handlePerPageProducts = (e) => {
+        const perProducts = parseInt(e.target.value);
+        console.log(perProducts)
+        setPerPageProducts(perProducts)
+    }
+
+    
     return (
         <div className='shop-container'>
             <div className="products-container">
@@ -116,6 +121,12 @@ const Shop = () => {
                         <button className='page' key={page}>{page}</button>
                     ))
                 }
+                <select defaultValue={perPageProducts} onChange={handlePerPageProducts}>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="20">50</option>
+                </select>
             </div>
         </div>
     );
