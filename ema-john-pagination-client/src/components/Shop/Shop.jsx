@@ -9,7 +9,8 @@ const Shop = () => {
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
     const [counts, setCounts] = useState({});
-    const [perPageProducts, setPerPageProducts] = useState(10)
+    const [currentPage, setCurrentPage] = useState(0);
+    const [perPageProducts, setPerPageProducts] = useState(10);
 
 
     const numberOfPages = counts.result ? Math.ceil(counts.result / perPageProducts) : 0;
@@ -89,10 +90,22 @@ const Shop = () => {
     const handlePerPageProducts = (e) => {
         const perProducts = parseInt(e.target.value);
         console.log(perProducts)
-        setPerPageProducts(perProducts)
+        setPerPageProducts(perProducts);
+        setCurrentPage(0)
     }
 
-    
+    const handlePrevPage = () => {
+        if(currentPage > 0){
+            setCurrentPage(currentPage - 1)
+        }
+    }
+
+    const handleNextPage = () => {
+        if(currentPage < pages.length - 1){
+            setCurrentPage(currentPage + 1)
+        }
+    }
+
     return (
         <div className='shop-container'>
             <div className="products-container">
@@ -115,12 +128,22 @@ const Shop = () => {
                 </Cart>
             </div>
 
+
+
             <div className='pagination'>
+                <div>
+                    Current Page : {currentPage}
+                </div>
+                <button onClick={handlePrevPage} style={{marginRight: '10px'}}>Prev</button>
                 {
                     pages.map(page => (
-                        <button className='page' key={page}>{page}</button>
+                        <button
+                            className={`${currentPage === page ? 'seleted' : ''} page`}
+                            onClick={() => setCurrentPage(page)}
+                            key={page}>{page}</button>
                     ))
                 }
+                <button onClick={handleNextPage} style={{marginRight: '10px'}}>Next</button>
                 <select defaultValue={perPageProducts} onChange={handlePerPageProducts}>
                     <option value="5">5</option>
                     <option value="10">10</option>

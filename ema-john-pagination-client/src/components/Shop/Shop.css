@@ -28,8 +28,13 @@
 
 .pagination{
     margin: 50px;
+    text-align: center;
 }
 
 .page{
     margin-right: 10px;
+}
+
+.pagination .seleted{
+    background-color: goldenrod;
 }
