@@ -18,10 +18,10 @@ const Shop = () => {
     console.log(numberOfPages, pages);
 
     useEffect(() => {
-        fetch('http://localhost:5000/products')
+        fetch(`http://localhost:5000/products?page=${currentPage}&size=${perPageProducts}`)
             .then(res => res.json())
             .then(data => setProducts(data))
-    }, []);
+    }, [currentPage, perPageProducts]);
 
     useEffect(() => {
         const storedCart = getShoppingCart();
@@ -95,13 +95,13 @@ const Shop = () => {
     }
 
     const handlePrevPage = () => {
-        if(currentPage > 0){
+        if (currentPage > 0) {
             setCurrentPage(currentPage - 1)
         }
     }
 
     const handleNextPage = () => {
-        if(currentPage < pages.length - 1){
+        if (currentPage < pages.length - 1) {
             setCurrentPage(currentPage + 1)
         }
     }
@@ -134,7 +134,7 @@ const Shop = () => {
                 <div>
                     Current Page : {currentPage}
                 </div>
-                <button onClick={handlePrevPage} style={{marginRight: '10px'}}>Prev</button>
+                <button onClick={handlePrevPage} style={{ marginRight: '10px' }}>Prev</button>
                 {
                     pages.map(page => (
                         <button
@@ -143,12 +143,12 @@ const Shop = () => {
                             key={page}>{page}</button>
                     ))
                 }
-                <button onClick={handleNextPage} style={{marginRight: '10px'}}>Next</button>
+                <button onClick={handleNextPage} style={{ marginRight: '10px' }}>Next</button>
                 <select defaultValue={perPageProducts} onChange={handlePerPageProducts}>
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="20">20</option>
-                    <option value="20">50</option>
+                    <option value="50">50</option>
                 </select>
             </div>
         </div>
